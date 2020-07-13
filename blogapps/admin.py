@@ -1,3 +1,6 @@
+import markdown
+
+from django.utils.html import strip_tags
 from django.contrib import admin
 from .models import Post, Category, Tag
 
@@ -9,6 +12,11 @@ class PostAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.author = request.user
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+        ])
+        obj.excerpt = strip_tags(md.convert(obj.body))[:54]
         super().save_model(request, obj, form, change)
 
 
