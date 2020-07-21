@@ -1,5 +1,6 @@
 import re
 import markdown
+from django.contrib.auth.models import User
 
 from markdown.extensions.toc import TocExtension
 from django.utils.text import slugify
@@ -28,6 +29,9 @@ def detail(request, pk):
     # 判断有没有文章目录
     m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
     post.toc = md.toc if m.group(1) else ''
+
+    # 阅读量 +1
+    post.increase_views()
 
     return render(request, 'blogapps/detail.html', context={'post': post})
 
@@ -67,4 +71,11 @@ def tag(request, pk):
     # 标签页面
     t = get_object_or_404(Tag, pk=pk)
     post_list = Post.objects.filter(tags=t).order_by('-created_time')
+    return render(request, 'blogapps/index.html', context={'post_list': post_list})
+
+
+def zuozhe(request, pk):
+    # 作者页面
+    z = get_object_or_404(User, pk=pk)
+    post_list = Post.objects.filter(author=z).order_by("-created_time")
     return render(request, 'blogapps/index.html', context={'post_list': post_list})
