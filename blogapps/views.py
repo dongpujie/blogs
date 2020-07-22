@@ -1,12 +1,13 @@
 import re
 import markdown
 from django.contrib.auth.models import User
-
 from markdown.extensions.toc import TocExtension
 from django.utils.text import slugify
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from pure_pagination import PaginationMixin
+
 from .models import Post, Category, Tag
 
 
@@ -72,11 +73,12 @@ from .models import Post, Category, Tag
 #     return render(request, 'blogapps/index.html', context={'post_list': post_list})
 
 
-class IndexView(generic.ListView):
+class IndexView(PaginationMixin, generic.ListView):
     # 首页
     model = Post
     template_name = 'blogapps/index.html'
     context_object_name = 'post_list'
+    paginate_by = 10
 
     def get_queryset(self):
         return Post.objects.all().order_by('-created_time')

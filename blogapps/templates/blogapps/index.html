@@ -31,6 +31,10 @@
     {% empty %}
         <div class="no-post">暂时还没有发布的文章！</div>
     {% endfor %}
+
+    {% if is_paginated %}
+        {{ page_obj.render }}
+    {% endif %}
     <!-- 简单分页效果
     <div class="pagination-simple">
         <a href="#">上一页</a>
