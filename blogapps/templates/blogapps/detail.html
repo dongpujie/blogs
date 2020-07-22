@@ -15,7 +15,7 @@
                         href="{% url 'blogapps:category' post.category.pk %}">{{ post.category.name }}</a></span>
                 <span class="comments-link"><a
                         href="{{ post.get_absolute_url }}#comment-area">{{ post.comment_set.count }}评论</a></span>
-                <span class="views-count"><a href="#">{{ post.views }} 阅读</a></span>
+                <span class="views-count"><a href="{% url 'blogapps:read' %}">{{ post.views }} 阅读</a></span>
             </div>
         </header>
         <div class="entry-content clearfix">
