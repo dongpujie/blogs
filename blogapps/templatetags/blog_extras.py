@@ -1,4 +1,5 @@
 from django import template
+from django.db.models.aggregates import Count
 
 from ..models import Post, Category, Tag
 
@@ -25,7 +26,7 @@ def show_archives(context):
 def show_categories(context):
     # 分类模板标签
     return {
-        'category_list': Category.objects.all(),
+        'category_list': Category.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0),
     }
 
 
@@ -33,5 +34,5 @@ def show_categories(context):
 def show_tags(context):
     # 标签云模板标签
     return {
-        'tag_list': Tag.objects.all(),
+        'tag_list': Tag.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0),
     }
