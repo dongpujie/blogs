@@ -11,5 +11,6 @@ urlpatterns = [
     path('categories/<int:pk>/', views.CategoryView.as_view(), name='category'),
     path('tags/<int:pk>/', views.TagView.as_view(), name='tag'),
     path('zuozhe/<int:pk>/', views.ZuozheView.as_view(), name='zuozhe'),
-    path('read/', views.ReadView.as_view(), name='read')
+    path('read/', views.ReadView.as_view(), name='read'),
+    path('search/', views.search, name='search'),
 ]
